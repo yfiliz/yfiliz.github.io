@@ -1,15 +1,185 @@
-:root { --bg: #F4F1EA; --ink: #1E2A44; --soft: #5C6478; --accent: #9E4F06; --card: #FFFFFF; --stripe: #F28C28; }
-@media (prefers-color-scheme: dark) { :root { --bg: #1E2A44; --ink: #F4F1EA; --soft: #A7B0C6; --accent: #F5C542; --card: #26355A; --stripe: #F5C542; } }
+/* Nakliyat Patronu · oyunun görünüşü: lacivert zemin, mazot sarısı ve tır
+   turuncusu, kabarık (alt dudaklı) kartlar ve düğmeler, Rubik yazı tipi. */
+@font-face {
+  font-family: "Rubik";
+  src: url("fonts/Rubik.ttf") format("truetype");
+  font-weight: 300 900;
+  font-display: swap;
+}
+:root {
+  --navy: #1E2A44;
+  --navy-deep: #141C30;
+  --orange: #F28C28;
+  --orange-ink: #9E4F06;
+  --yellow: #F5C542;
+  --green: #2BB673;
+  --red: #E5484D;
+  --paper: #F4F1EA;
+  --peach: #FDEFE4;
+  --ink: #1E2A44;
+  --soft: #556078;
+  --mist: #C3CADB;
+}
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif; border-top: 6px solid var(--stripe); }
-main { max-width: 720px; margin: 0 auto; padding: 40px 20px 64px; }
-h1 { font-size: 34px; line-height: 1.15; margin: 0 0 6px; }
-h2 { font-size: 21px; margin: 32px 0 8px; }
-p, li { color: var(--ink); }
-li { margin: 4px 0; }
-.soft { color: var(--soft); }
-a { color: var(--accent); }
-nav { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; font-weight: 600; }
-.card { background: var(--card); border-radius: 18px; padding: 20px 22px; margin: 16px 0; }
-.lang { display: inline-block; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
-hr { border: 0; border-top: 1px solid color-mix(in srgb, var(--soft) 30%, transparent); margin: 40px 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font: 17px/1.6 "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--paper);
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(900px 420px at 50% -60px, rgba(242, 140, 40, 0.28), rgba(242, 140, 40, 0) 70%),
+    linear-gradient(180deg, #2A3A5E 0, var(--navy) 460px, var(--navy-deep) 100%);
+  background-repeat: no-repeat;
+}
+main { max-width: 760px; margin: 0 auto; padding: 0 18px 40px; }
+a { color: var(--yellow); }
+a:focus-visible, .chip:focus-visible, .btn:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* Üst çubuk: oyundaki lacivert başlık çubuğu gibi. */
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--navy);
+  border-bottom: 3px solid var(--orange);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.bar-in {
+  max-width: 760px; margin: 0 auto; padding: 10px 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px; margin-right: auto;
+  color: var(--paper); text-decoration: none; font-weight: 800; font-size: 18px;
+}
+.brand img { width: 38px; height: 38px; border-radius: 10px; }
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 6px 13px 7px; border-radius: 999px;
+  background: var(--paper); color: var(--navy);
+  font-weight: 700; font-size: 14px; text-decoration: none;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.16);
+}
+.chip.on { background: var(--orange); color: #fff; }
+@media (max-width: 520px) { .brand span { display: none; } }
+
+/* Giriş: simge, kalın başlık (mağaza görsellerindeki gibi beyaz + sarı). */
+.hero { text-align: center; padding: 40px 0 6px; }
+.hero .icon {
+  width: 116px; height: 116px; border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.08);
+}
+.hero h1 {
+  margin: 18px 0 8px;
+  font-size: clamp(36px, 8vw, 56px); line-height: 1.04; font-weight: 900;
+  letter-spacing: -0.01em; color: #fff;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.28);
+}
+.hero h1 em { font-style: normal; color: var(--yellow); }
+.hero .tag { margin: 0; color: var(--mist); font-size: 18px; }
+.lead { color: var(--mist); }
+.lead strong { color: #fff; }
+
+/* Yol: asfalt, kayan sarı şerit ve giden tır (uygulama simgesindeki yol). */
+.road {
+  position: relative; height: 56px; margin: 26px 0 20px;
+  background: #2B2F38; border-radius: 12px; overflow: hidden;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.06), 0 5px 0 rgba(0, 0, 0, 0.32);
+}
+.road::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%;
+  height: 4px; margin-top: -2px;
+  background: repeating-linear-gradient(90deg, var(--yellow) 0 26px, transparent 26px 52px);
+  animation: lane 1.4s linear infinite;
+}
+.road img {
+  position: absolute; top: -2px; left: -70px; width: 60px; height: 60px;
+  animation: drive 16s linear infinite;
+}
+.road img.small { width: 44px; height: 44px; top: 7px; animation-delay: -8s; animation-duration: 21s; }
+@keyframes lane { to { background-position: -52px 0; } }
+@keyframes drive { from { left: -70px; } to { left: calc(100% + 10px); } }
+@media (prefers-reduced-motion: reduce) {
+  .road::before, .road img { animation: none; }
+  .road img { left: 14%; }
+  .road img.small { left: 62%; }
+}
+
+/* Kartlar: açık zemin, alt dudak gölgesi (oyundaki kabarık kartlar). */
+.card {
+  margin: 16px 0; padding: 18px 20px 20px;
+  background: var(--paper); color: var(--ink);
+  border-radius: 20px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3), 0 16px 30px rgba(0, 0, 0, 0.2);
+}
+.card.hi { background: var(--peach); box-shadow: 0 6px 0 #C46A12, 0 16px 30px rgba(0, 0, 0, 0.2); }
+.card.warn { box-shadow: 0 6px 0 #A62C30, 0 16px 30px rgba(0, 0, 0, 0.2); }
+.card h2, .card h3 {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 8px; color: var(--navy); line-height: 1.2;
+}
+.card h2 { font-size: 21px; font-weight: 800; }
+.card h3 { font-size: 18px; font-weight: 700; margin-top: 18px; }
+.card h3:first-child { margin-top: 0; }
+.card h2 img, .card h3 img { width: 36px; height: 36px; flex: none; }
+.card p, .card li { color: var(--ink); }
+.card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 0; }
+.card a { color: var(--orange-ink); font-weight: 600; }
+.card .soft { color: var(--soft); }
+.card ul, .card ol { padding-left: 22px; }
+.card li { margin: 6px 0; }
+.card li::marker { color: var(--orange); font-weight: 800; }
+
+.pill {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  background: rgba(245, 197, 66, 0.16); color: var(--yellow);
+  font-weight: 700; font-size: 14px;
+}
+.card .pill { background: rgba(30, 42, 68, 0.08); color: var(--navy); }
+.path {
+  display: inline-block; padding: 1px 8px; border-radius: 8px;
+  background: var(--navy); color: var(--paper) !important;
+  font-weight: 700; font-size: 0.92em; white-space: nowrap;
+}
+
+/* Düğmeler: turuncu, altta koyu dudak, basınca çöker. */
+.btn {
+  display: inline-block; margin: 6px 6px 0 0; padding: 10px 18px 13px;
+  border-radius: 14px; background: var(--orange); color: #fff !important;
+  font-weight: 800; text-decoration: none;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.22), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+}
+.btn:active { transform: translateY(2px); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.22); }
+.btn.navy { background: var(--navy); }
+.btn.red { background: var(--red); }
+
+.lang-head {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+  margin: 48px 0 4px; padding-top: 28px;
+  border-top: 2px dashed rgba(245, 197, 66, 0.35);
+}
+.lang-head h2 { margin: 0; color: #fff; font-size: 30px; font-weight: 900; text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
+
+/* Ana sayfa: ekran görüntüleri. */
+.shots {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin: 18px 0 6px;
+}
+.shots img {
+  width: 100%; height: auto; border-radius: 16px; display: block;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3), 0 14px 26px rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 520px) {
+  .shots { grid-template-columns: repeat(3, 62%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; }
+  .shots img { scroll-snap-align: center; }
+}
+.center { text-align: center; }
+
+footer {
+  margin-top: 40px; text-align: center; color: #93A0BA; font-size: 14px;
+}
+footer img { width: 40px; height: 40px; display: block; margin: 0 auto 6px; opacity: 0.9; }
